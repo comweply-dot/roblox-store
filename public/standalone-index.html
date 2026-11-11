@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROBLOX STORE - Premium Gaming Marketplace</title>
+  <meta name="description" content="The premier international Roblox gaming marketplace. Shop large Robux packages, rare avatars & skins, digital gift cards, top game items, and Premium memberships with verified 50% discounts." />
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            roblox: {
+              dark: '#070709',
+              card: '#0f1015',
+              border: '#1f222e',
+              red: '#e52030',
+              redHover: '#ff2d40',
+              gold: '#f59e0b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #070709;
+      color: #f3f4f6;
+    }
+    .glow-red {
+      box-shadow: 0 0 25px rgba(229, 32, 48, 0.25);
+    }
+    .glow-red-lg {
+      box-shadow: 0 0 40px rgba(229, 32, 48, 0.4);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f1015;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #272a37;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-[#070709] text-zinc-100 min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-red-950/80 via-red-900/40 to-red-950/80 border-b border-red-500/20 py-2 px-4 text-center text-xs font-medium text-red-200">
+    ⚡ SPECIAL GLOBAL OFFER: Instant 50% OFF All Robux Packages & In-Game Items • Verified Instant Delivery
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-[#070709]/95 backdrop-blur-md border-b border-zinc-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="navigate('robux')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30 font-black text-xl text-white">
+          R
+        </div>
+        <div>
+          <span class="text-lg font-black tracking-wider text-white">ROBLOX<span class="text-red-500">STORE</span></span>
+          <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold bg-zinc-800 text-zinc-400 rounded border border-zinc-700">Official Partner</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-medium">
+        <button onclick="navigate('robux')" id="nav-robux" class="px-3 py-2 rounded-lg text-white bg-zinc-800/80 transition-all flex items-center gap-1.5">
+          <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i> Robux Packages
+        </button>
+        <button onclick="navigate('skins')" id="nav-skins" class="px-3 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i> Skins & Avatars
+        </button>
+        <button onclick="navigate('giftcards')" id="nav-giftcards" class="px-3 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all flex items-center gap-1.5">
+          <i data-lucide="gift" class="w-4 h-4 text-emerald-400"></i> Gift Cards
+        </button>
+        <button onclick="navigate('track')" id="nav-track" class="px-3 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all flex items-center gap-1.5">
+          <i data-lucide="search" class="w-4 h-4 text-blue-400"></i> Track Order
+        </button>
+      </nav>
+
+      <!-- Right Controls: Currency & Cart -->
+      <div class="flex items-center space-x-3">
+        <!-- Currency Toggle -->
+        <div class="bg-zinc-900 border border-zinc-800 p-0.5 rounded-lg flex text-xs font-bold">
+          <button onclick="setCurrency('INR')" id="btn-curr-inr" class="px-2.5 py-1 rounded bg-red-600 text-white transition-colors">₹ INR</button>
+          <button onclick="setCurrency('USD')" id="btn-curr-usd" class="px-2.5 py-1 rounded text-zinc-400 hover:text-white transition-colors">$ USD</button>
+        </div>
+
+        <!-- Cart Button -->
+        <button onclick="openCart()" class="relative p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white transition-all flex items-center">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#070709] hidden">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- PAGE 1: ROBUX PACKAGES -->
+    <div id="page-robux" class="space-y-8">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-950/60 via-[#12131a] to-zinc-900 border border-red-500/30 p-6 sm:p-10">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Safe & Guaranteed
+          </span>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Buy Robux with <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-amber-400">50% Discount</span>
+          </h1>
+          <p class="text-zinc-400 text-sm sm:text-base">
+            Get genuine Robux credited to your Roblox username instantly. Zero password required. Accepted via UPI & Cryptocurrency worldwide.
+          </p>
+        </div>
+      </div>
+
+      <!-- Packages Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="robux-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- PAGE 2: SKINS & AVATARS -->
+    <div id="page-skins" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-800 pb-5">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-6 h-6 text-purple-400"></i> Roblox Avatar Marketplace
+          </h2>
+          <p class="text-sm text-zinc-400">Browse official Roblox catalog items, limiteds, and avatars.</p>
+        </div>
+        <!-- Search -->
+        <div class="w-full sm:w-72 relative">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-zinc-500"></i>
+          <input type="text" id="skin-search" oninput="filterSkins()" placeholder="Search items & skins..." class="w-full pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-red-500" />
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="flex gap-2 overflow-x-auto pb-2 custom-scrollbar text-xs font-medium" id="category-pills">
+        <button onclick="setCategory('All')" class="cat-pill px-3 py-1.5 rounded-lg bg-red-600 text-white font-bold whitespace-nowrap">All Items</button>
+        <button onclick="setCategory('Avatar Bundles')" class="cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap">Avatar Bundles</button>
+        <button onclick="setCategory('Outfits')" class="cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap">Outfits</button>
+        <button onclick="setCategory('Hair')" class="cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap">Hair</button>
+        <button onclick="setCategory('Faces')" class="cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap">Faces</button>
+        <button onclick="setCategory('Limited')" class="cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap">Limited Items</button>
+      </div>
+
+      <!-- Skins Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="skins-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- PAGE 3: GIFT CARDS -->
+    <div id="page-giftcards" class="space-y-6 hidden">
+      <div class="border-b border-zinc-800 pb-4">
+        <h2 class="text-2xl font-black text-white flex items-center gap-2">
+          <i data-lucide="gift" class="w-6 h-6 text-emerald-400"></i> Roblox Digital Gift Cards
+        </h2>
+        <p class="text-sm text-zinc-400">Digital redeem codes delivered directly with instant PIN email.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="giftcards-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- PAGE 4: TRACK ORDER -->
+    <div id="page-track" class="max-w-xl mx-auto space-y-6 hidden">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl font-black text-white">Track Order Delivery</h2>
+        <p class="text-sm text-zinc-400">Enter your Roblox username or transaction ID to check live transfer status.</p>
+      </div>
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Roblox Username or Reference ID</label>
+          <input type="text" id="track-input" placeholder="e.g. GamerPro_99 or RBLX-98214" class="w-full px-4 py-3 bg-[#070709] border border-zinc-800 rounded-xl text-white text-sm focus:outline-none focus:border-red-500" />
+        </div>
+        <button onclick="handleTrack()" class="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-red-600/30">
+          <i data-lucide="search" class="w-4 h-4"></i> Check Status
+        </button>
+        <div id="track-result" class="hidden mt-4 p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-2">
+          <div class="flex justify-between font-bold text-white">
+            <span>Status:</span>
+            <span class="text-amber-400">Under Verification</span>
+          </div>
+          <p class="text-zinc-400">Orders are queued in sequence. Once blockchain/UPI payment confirms, Robux transfers automatically within 5-15 minutes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: CHECKOUT / PAYMENT SECTION -->
+    <div id="page-checkout" class="max-w-3xl mx-auto space-y-6 hidden">
+      
+      <!-- Back to Shop -->
+      <button onclick="navigate('robux')" class="text-zinc-400 hover:text-white text-xs font-bold flex items-center gap-1.5 transition-colors">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Store
+      </button>
+
+      <!-- Checkout Card -->
+      <div class="bg-[#0f1015] border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-8">
+        
+        <!-- Header -->
+        <div class="border-b border-zinc-800 pb-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+          <div>
+            <h2 class="text-2xl font-black text-white">Secure Order Checkout</h2>
+            <p class="text-xs text-zinc-400">Complete payment using India UPI or Global Cryptocurrency (BEP20 / TRC20).</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-zinc-500 block uppercase font-bold">Total Due</span>
+            <span id="checkout-total-price" class="text-2xl font-black text-red-500">₹0</span>
+          </div>
+        </div>
+
+        <!-- Customer Roblox Username -->
+        <div class="bg-[#070709] p-4 rounded-xl border border-zinc-800/80 space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-300">
+            Roblox Username <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="checkout-username" placeholder="Enter your Roblox username (No password required)" class="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-700/80 rounded-lg text-white text-sm focus:outline-none focus:border-red-500" />
+        </div>
+
+        <!-- Payment Method Tabs -->
+        <div class="space-y-4">
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400">Select Payment Method</label>
+          <div class="grid grid-cols-3 gap-3">
+            <button onclick="setPaymentTab('upi')" id="tab-upi" class="p-3 rounded-xl border border-red-500 bg-red-600/10 text-white font-bold text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-2 transition-all">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> India UPI
+            </button>
+            <button onclick="setPaymentTab('bep20')" id="tab-bep20" class="p-3 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white font-bold text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-2 transition-all">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> BEP20 (BNB)
+            </button>
+            <button onclick="setPaymentTab('trc20')" id="tab-trc20" class="p-3 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white font-bold text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-2 transition-all">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> TRC20 (Tron)
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 1: INDIA UPI -->
+        <div id="pay-content-upi" class="space-y-6 bg-[#070709] p-6 rounded-2xl border border-zinc-800">
+          <div class="text-center space-y-1">
+            <h3 class="text-lg font-black text-white">Scan QR to Pay</h3>
+            <p class="text-xs text-zinc-400">Scan using any UPI App (Google Pay, PhonePe, Paytm, BHIM UPI)</p>
+          </div>
+
+          <!-- UPI QR Image Container -->
+          <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="bg-white p-3 rounded-2xl shadow-xl max-w-[280px] w-full flex items-center justify-center border-4 border-[#0284c7]">
+              <img id="upi-qr-img" src="/assets/aistudio/IMG-20261101-WA0000_be3b98b6.jpg" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=wepteam@ptyes%26pn=Ram%20Kailash'" alt="India UPI QR" class="w-full h-auto rounded-lg object-contain" />
+            </div>
+
+            <!-- Download QR & UPI ID -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+              <a href="/assets/aistudio/IMG-20261101-WA0000_be3b98b6.jpg" download="UPI_Payment_QR.jpg" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-lg border border-zinc-700 flex items-center gap-1.5 transition-colors">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> Download QR
+              </a>
+              <button onclick="copyText('wepteam@ptyes', 'UPI ID Copied!')" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-lg border border-zinc-700 flex items-center gap-1.5 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy UPI: wepteam@ptyes
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 2: BEP20 (BNB SMART CHAIN) -->
+        <div id="pay-content-bep20" class="space-y-6 bg-[#070709] p-6 rounded-2xl border border-zinc-800 hidden">
+          <div class="text-center space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              BEP20 – BNB Smart Chain
+            </div>
+            <h3 class="text-lg font-black text-white mt-2">Scan BNB Smart Chain QR to Pay</h3>
+            <p class="text-xs text-zinc-400">Send USDT or BNB on BNB Smart Chain (BEP20 network only)</p>
+          </div>
+
+          <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="bg-white p-3 rounded-2xl shadow-xl max-w-[260px] w-full flex items-center justify-center border-4 border-amber-500">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=0x70685190F17B71dFB0DACb802751dEA2dBd5fAFA" alt="BEP20 QR" class="w-full h-auto rounded-lg object-contain" />
+            </div>
+
+            <!-- Address Field -->
+            <div class="w-full max-w-md bg-zinc-950 p-3 rounded-xl border border-zinc-800 flex items-center justify-between gap-2">
+              <div class="overflow-hidden">
+                <span class="text-[10px] uppercase font-bold text-zinc-500 block">BEP20 Wallet Address</span>
+                <span class="text-xs font-mono text-zinc-200 truncate block">0x70685190F17B71dFB0DACb802751dEA2dBd5fAFA</span>
+              </div>
+              <button onclick="copyText('0x70685190F17B71dFB0DACb802751dEA2dBd5fAFA', 'BEP20 Address Copied!')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs rounded-lg flex items-center gap-1 shrink-0 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 3: TRC20 (TRON) -->
+        <div id="pay-content-trc20" class="space-y-6 bg-[#070709] p-6 rounded-2xl border border-zinc-800 hidden">
+          <div class="text-center space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
+              TRC20 – Tron
+            </div>
+            <h3 class="text-lg font-black text-white mt-2">Scan Tron TRC20 QR to Pay</h3>
+            <p class="text-xs text-zinc-400">Send USDT on Tron Network (TRC20 network only)</p>
+          </div>
+
+          <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="bg-white p-3 rounded-2xl shadow-xl max-w-[260px] w-full flex items-center justify-center border-4 border-red-600">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=THDha3vFBE4Lov5McPep6czmtqPsoLuAk5" alt="TRC20 QR" class="w-full h-auto rounded-lg object-contain" />
+            </div>
+
+            <!-- Address Field -->
+            <div class="w-full max-w-md bg-zinc-950 p-3 rounded-xl border border-zinc-800 flex items-center justify-between gap-2">
+              <div class="overflow-hidden">
+                <span class="text-[10px] uppercase font-bold text-zinc-500 block">TRC20 Wallet Address</span>
+                <span class="text-xs font-mono text-zinc-200 truncate block">THDha3vFBE4Lov5McPep6czmtqPsoLuAk5</span>
+              </div>
+              <button onclick="copyText('THDha3vFBE4Lov5McPep6czmtqPsoLuAk5', 'TRC20 Address Copied!')" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg flex items-center gap-1 shrink-0 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transaction Reference ID Field -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-300">
+            Transaction UTR / Hash / Proof Reference <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="checkout-txid" placeholder="Enter UPI 12-digit UTR or Crypto TXID" class="w-full px-4 py-2.5 bg-[#070709] border border-zinc-700/80 rounded-lg text-white text-sm focus:outline-none focus:border-red-500" />
+        </div>
+
+        <!-- ORDER SUBMIT BUTTON -->
+        <button onclick="handleOrderSubmit()" class="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-black text-base rounded-xl transition-all shadow-xl shadow-red-600/30 flex items-center justify-center gap-2">
+          <i data-lucide="check-circle" class="w-5 h-5"></i> Submit Order Request
+        </button>
+      </div>
+    </div>
+
+    <!-- ORDER UNAVAILABLE NOTIFICATION MODAL -->
+    <div id="unavailable-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+      <div class="bg-[#0f1015] border border-red-500/40 rounded-2xl max-w-md w-full p-6 sm:p-8 space-y-6 glow-red-lg text-center">
+        
+        <!-- Icon -->
+        <div class="w-16 h-16 rounded-full bg-red-600/10 border-2 border-red-500 flex items-center justify-center mx-auto text-red-500">
+          <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+        </div>
+
+        <!-- Status Badge -->
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-red-500/20 text-red-400 border border-red-500/30">
+            Package Unavailable
+          </span>
+          <h3 class="text-xl font-black text-white mt-3">Order Status</h3>
+        </div>
+
+        <!-- Exact Required User Message -->
+        <div class="bg-[#070709] p-4 rounded-xl border border-zinc-800">
+          <p class="text-sm font-bold text-red-300">
+            Sorry! This package is currently unavailable. Please try another package.
+          </p>
+          <p class="text-xs text-zinc-500 mt-2">
+            Status: Payment Received – Review or Alternative Package Resolution Required.
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <button onclick="closeUnavailableModal('skins')" class="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+            Browse Other Packages
+          </button>
+          <button onclick="closeUnavailableModal('robux')" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+            Back to Store
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CART SLIDE-OVER DRAWER -->
+  <div id="cart-drawer-overlay" onclick="closeCart()" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden"></div>
+  <div id="cart-drawer" class="fixed top-0 right-0 z-50 w-full max-w-md h-full bg-[#0f1015] border-l border-zinc-800 transform translate-x-full transition-transform duration-300 flex flex-col">
+    
+    <div class="p-5 border-b border-zinc-800 flex items-center justify-between">
+      <h3 class="text-lg font-black text-white flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-red-500"></i> Your Shopping Cart
+      </h3>
+      <button onclick="closeCart()" class="p-2 text-zinc-400 hover:text-white rounded-lg">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar" id="cart-items-container">
+      <!-- Rendered via JS -->
+    </div>
+
+    <div class="p-5 border-t border-zinc-800 bg-[#070709] space-y-4">
+      <div class="flex justify-between text-sm">
+        <span class="text-zinc-400">Total</span>
+        <span id="cart-total-price" class="font-black text-xl text-red-500">₹0</span>
+      </div>
+      <button onclick="proceedToCheckout()" id="cart-checkout-btn" class="w-full py-3.5 bg-red-600 hover:bg-red-500 text-white font-black text-sm rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2">
+        Proceed to Checkout <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-xs font-bold shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-msg">Notification</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-zinc-900 bg-[#070709] py-8 text-xs text-zinc-500">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+      <p class="font-bold text-zinc-400">ROBLOX STORE © 2026. All rights reserved.</p>
+      <p class="max-w-2xl mx-auto text-[11px] text-zinc-600">
+        Roblox is a registered trademark of Roblox Corporation. This independent store is an authorized retail partner offering gift cards and digital vouchers.
+      </p>
+    </div>
+  </footer>
+
+  <!-- STANDALONE JAVASCRIPT APPLICATION CODE -->
+  <script>
+    // Global Application State
+    let state = {
+      currency: 'INR',
+      cart: [],
+      activePage: 'robux',
+      activeTab: 'upi',
+      currentCategory: 'All',
+      skinsQuery: ''
+    };
+
+    // Product Data
+    const robuxPackages = [
+      { id: 'rbx-800', name: '800 Robux Package', robux: 800, inr: 399, inrOld: 799, usd: 4.99, usdOld: 9.99, popular: false },
+      { id: 'rbx-1700', name: '1,700 Robux Package', robux: 1700, inr: 799, inrOld: 1599, usd: 9.99, usdOld: 19.99, popular: true },
+      { id: 'rbx-4500', name: '4,500 Robux Package', robux: 4500, inr: 1899, inrOld: 3799, usd: 24.99, usdOld: 49.99, popular: false },
+      { id: 'rbx-10000', name: '10,000 Robux Vault', robux: 10000, inr: 3799, inrOld: 7599, usd: 49.99, usdOld: 99.99, popular: true },
+      { id: 'rbx-22500', name: '22,500 Robux Giant Chest', robux: 22500, inr: 7999, inrOld: 15999, usd: 99.99, usdOld: 199.99, popular: false },
+      { id: 'rbx-50000', name: '50,000 Robux Supreme Vault', robux: 50000, inr: 15999, inrOld: 31999, usd: 199.99, usdOld: 399.99, popular: false }
+    ];
+
+    const giftCardPackages = [
+      { id: 'gc-10', name: '$10 Roblox Gift Card (800 Robux + Virtual Item)', inr: 450, inrOld: 900, usd: 5.00, usdOld: 10.00 },
+      { id: 'gc-25', name: '$25 Roblox Gift Card (2,000 Robux + Exclusive Avatar)', inr: 1100, inrOld: 2200, usd: 12.50, usdOld: 25.00 },
+      { id: 'gc-50', name: '$50 Roblox Gift Card (4,500 Robux + Bonus)', inr: 2199, inrOld: 4399, usd: 25.00, usdOld: 50.00 }
+    ];
+
+    const avatarCatalog = [
+      { id: 'av-1', name: 'Valkyrie Helm Edition', category: 'Limited', inr: 1499, usd: 18.99, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80' },
+      { id: 'av-2', name: 'Dominus Aureus Avatar Outfit', category: 'Outfits', inr: 2499, usd: 29.99, img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=300&q=80' },
+      { id: 'av-3', name: 'Frost Dragon Slayer Bundle', category: 'Avatar Bundles', inr: 1299, usd: 15.99, img: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=300&q=80' },
+      { id: 'av-4', name: 'Cyberpunk Neon Ronin Hair', category: 'Hair', inr: 599, usd: 7.99, img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&q=80' },
+      { id: 'av-5', name: 'Super Happy Smiling Face', category: 'Faces', inr: 1899, usd: 22.99, img: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&q=80' },
+      { id: 'av-6', name: 'Shadow Ninja Stealth Bundle', category: 'Avatar Bundles', inr: 1499, usd: 18.99, img: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300&q=80' }
+    ];
+
+    // Initialization
+    function init() {
+      renderRobux();
+      renderSkins();
+      renderGiftCards();
+      updateCartUI();
+      lucide.createIcons();
+    }
+
+    // Format Currency
+    function formatPrice(inr, usd) {
+      if (state.currency === 'INR') {
+        return `₹${inr.toLocaleString('en-IN')}`;
+      }
+      return `$${usd.toFixed(2)}`;
+    }
+
+    function setCurrency(curr) {
+      state.currency = curr;
+      document.getElementById('btn-curr-inr').className = curr === 'INR' ? 'px-2.5 py-1 rounded bg-red-600 text-white transition-colors' : 'px-2.5 py-1 rounded text-zinc-400 hover:text-white transition-colors';
+      document.getElementById('btn-curr-usd').className = curr === 'USD' ? 'px-2.5 py-1 rounded bg-red-600 text-white transition-colors' : 'px-2.5 py-1 rounded text-zinc-400 hover:text-white transition-colors';
+      renderRobux();
+      renderSkins();
+      renderGiftCards();
+      updateCartUI();
+    }
+
+    // Render Robux Packages
+    function renderRobux() {
+      const container = document.getElementById('robux-grid');
+      container.innerHTML = robuxPackages.map(pkg => `
+        <div class="relative bg-[#0f1015] border ${pkg.popular ? 'border-red-500 glow-red' : 'border-zinc-800'} rounded-2xl p-6 flex flex-col justify-between hover:border-red-500/80 transition-all duration-300">
+          ${pkg.popular ? '<span class="absolute -top-3 right-6 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-md">Most Popular</span>' : ''}
+          <div class="space-y-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <i data-lucide="coins" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-black text-white">${pkg.robux.toLocaleString()} Robux</h3>
+              <p class="text-xs text-zinc-400">Instant direct transfer to Roblox username</p>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="text-2xl font-black text-red-500">${formatPrice(pkg.inr, pkg.usd)}</span>
+              <span class="text-xs text-zinc-500 line-through">${formatPrice(pkg.inrOld, pkg.usdOld)}</span>
+              <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">50% OFF</span>
+            </div>
+          </div>
+          <div class="mt-6 space-y-2">
+            <button onclick="buyNow('${pkg.id}')" class="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md shadow-red-600/20">
+              Buy Now
+            </button>
+            <button onclick="addToCart('${pkg.id}', '${pkg.name}', ${pkg.inr}, ${pkg.usd})" class="w-full py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-bold rounded-xl border border-zinc-800 transition-colors">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Render Skins & Avatars
+    function renderSkins() {
+      const container = document.getElementById('skins-grid');
+      let filtered = avatarCatalog.filter(item => {
+        const matchesCat = state.currentCategory === 'All' || item.category === state.currentCategory;
+        const matchesSearch = item.name.toLowerCase().includes(state.skinsQuery.toLowerCase());
+        return matchesCat && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="col-span-full py-12 text-center text-zinc-500 text-sm">No items found matching your filters.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="bg-[#0f1015] border border-zinc-800 rounded-xl overflow-hidden hover:border-red-500/50 transition-all">
+          <div class="h-36 bg-zinc-900 overflow-hidden relative">
+            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover" />
+            <span class="absolute top-2 left-2 bg-black/60 text-[10px] px-2 py-0.5 rounded text-zinc-300">${item.category}</span>
+          </div>
+          <div class="p-3 space-y-2">
+            <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-red-500">${formatPrice(item.inr, item.usd)}</span>
+              <button onclick="addToCart('${item.id}', '${item.name}', ${item.inr}, ${item.usd})" class="p-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg transition-colors">
+                <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Render Gift Cards
+    function renderGiftCards() {
+      const container = document.getElementById('giftcards-grid');
+      container.innerHTML = giftCardPackages.map(pkg => `
+        <div class="bg-[#0f1015] border border-zinc-800 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/50 transition-all">
+          <div class="space-y-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <i data-lucide="gift" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-black text-white">${pkg.name}</h3>
+              <p class="text-xs text-zinc-400">Official digital code sent instantly</p>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="text-2xl font-black text-emerald-400">${formatPrice(pkg.inr, pkg.usd)}</span>
+              <span class="text-xs text-zinc-500 line-through">${formatPrice(pkg.inrOld, pkg.usdOld)}</span>
+            </div>
+          </div>
+          <button onclick="buyNow('${pkg.id}')" class="mt-6 w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+            Buy Card Now
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Navigation
+    function navigate(page) {
+      state.activePage = page;
+      ['robux', 'skins', 'giftcards', 'track', 'checkout'].forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if (el) el.classList.toggle('hidden', p !== page);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setCategory(cat) {
+      state.currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.textContent.trim() === cat) {
+          btn.className = 'cat-pill px-3 py-1.5 rounded-lg bg-red-600 text-white font-bold whitespace-nowrap';
+        } else {
+          btn.className = 'cat-pill px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white whitespace-nowrap';
+        }
+      });
+      renderSkins();
+    }
+
+    function filterSkins() {
+      state.skinsQuery = document.getElementById('skin-search').value;
+      renderSkins();
+    }
+
+    // Payment Tabs
+    function setPaymentTab(tab) {
+      state.activeTab = tab;
+      ['upi', 'bep20', 'trc20'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        const content = document.getElementById(`pay-content-${t}`);
+        if (t === tab) {
+          btn.className = 'p-3 rounded-xl border border-red-500 bg-red-600/10 text-white font-bold text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-2 transition-all';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'p-3 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white font-bold text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-2 transition-all';
+          content.classList.add('hidden');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    // Cart Operations
+    function addToCart(id, name, inr, usd) {
+      const existing = state.cart.find(i => i.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        state.cart.push({ id, name, inr, usd, qty: 1 });
+      }
+      updateCartUI();
+      showToast(`${name} added to cart`);
+    }
+
+    function removeFromCart(id) {
+      state.cart = state.cart.filter(i => i.id !== id);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cart-badge');
+      const count = state.cart.reduce((sum, item) => sum + item.qty, 0);
+      badge.textContent = count;
+      badge.classList.toggle('hidden', count === 0);
+
+      const container = document.getElementById('cart-items-container');
+      if (state.cart.length === 0) {
+        container.innerHTML = '<div class="py-12 text-center text-zinc-500 text-sm">Your cart is empty.</div>';
+      } else {
+        container.innerHTML = state.cart.map(item => `
+          <div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center">
+            <div>
+              <h4 class="text-xs font-bold text-white">${item.name}</h4>
+              <p class="text-xs text-red-400 font-bold">${formatPrice(item.inr, item.usd)} × ${item.qty}</p>
+            </div>
+            <button onclick="removeFromCart('${item.id}')" class="text-zinc-500 hover:text-red-400 p-1">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+
+      const totalInr = state.cart.reduce((sum, i) => sum + i.inr * i.qty, 0);
+      const totalUsd = state.cart.reduce((sum, i) => sum + i.usd * i.qty, 0);
+      document.getElementById('cart-total-price').textContent = formatPrice(totalInr, totalUsd);
+      document.getElementById('checkout-total-price').textContent = formatPrice(totalInr, totalUsd);
+      lucide.createIcons();
+    }
+
+    function openCart() {
+      document.getElementById('cart-drawer-overlay').classList.remove('hidden');
+      document.getElementById('cart-drawer').classList.remove('translate-x-full');
+    }
+
+    function closeCart() {
+      document.getElementById('cart-drawer-overlay').classList.add('hidden');
+      document.getElementById('cart-drawer').classList.add('translate-x-full');
+    }
+
+    function proceedToCheckout() {
+      closeCart();
+      if (state.cart.length === 0) {
+        showToast('Please add a package to cart first');
+        return;
+      }
+      navigate('checkout');
+    }
+
+    function buyNow(id) {
+      const pkg = robuxPackages.find(p => p.id === id) || giftCardPackages.find(p => p.id === id);
+      if (pkg) {
+        state.cart = [{ id: pkg.id, name: pkg.name, inr: pkg.inr, usd: pkg.usd, qty: 1 }];
+        updateCartUI();
+        navigate('checkout');
+      }
+    }
+
+    // ORDER SUBMISSION HANDLER - EXACT REQUIRED SPECIFICATION
+    function handleOrderSubmit() {
+      const username = document.getElementById('checkout-username').value.trim();
+      const txid = document.getElementById('checkout-txid').value.trim();
+
+      if (!username) {
+        showToast('Please enter your Roblox username');
+        return;
+      }
+      if (!txid) {
+        showToast('Please enter your payment UTR / Transaction Hash');
+        return;
+      }
+
+      // Show immediately the exact requested message:
+      // "Sorry! This package is currently unavailable. Please try another package."
+      document.getElementById('unavailable-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeUnavailableModal(targetPage) {
+      document.getElementById('unavailable-modal').classList.add('hidden');
+      navigate(targetPage);
+    }
+
+    function handleTrack() {
+      const val = document.getElementById('track-input').value.trim();
+      if (!val) {
+        showToast('Please enter a username or ID');
+        return;
+      }
+      document.getElementById('track-result').classList.remove('hidden');
+    }
+
+    function copyText(text, msg) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(msg);
+      }).catch(() => {
+        showToast('Copied to clipboard');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Start
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

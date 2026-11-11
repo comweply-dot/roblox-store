@@ -1,0 +1,6 @@
+{
+  "name": "ROBLOX STORE - Premium Gaming Marketplace",
+  "description": "The premier international Roblox gaming marketplace. Shop large Robux packages, rare avatars & skins, digital gift cards, top game items, and Premium memberships with verified 50% discounts, instant delivery, UPI & Crypto USDT checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
